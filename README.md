@@ -5,7 +5,7 @@ Thanks to [@IppSec](https://github.com/IppSec) and [@an0nlk](https://github.com/
 
 ## nosql-login-bypass.py
 ### Description
-This script checks for GET,POST and JSON encoded POST requests to find a possible NoSQL Auth Bypass. For every type of request it injects a "template" invalid credential and an Auth Bypass Payload. Then it comparesm both status code and body of the responses to find discrepancies.
+This script checks for GET,POST and JSON encoded POST requests to find a possible NoSQL Auth Bypass. For every type of request it injects a "template" invalid credential and an Auth Bypass Payload. Then it compares both status code and body of the responses to find discrepancies.
 
 ### Usage
 ```
