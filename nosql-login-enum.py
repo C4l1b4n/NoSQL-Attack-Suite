@@ -47,7 +47,6 @@ def post_request_json(data):
 	global args
 	response = requests.post(args.t,json=data,allow_redirects=False)
 	if response.status_code != int(args.c):
-		print(response.status_code,args.c)
 		return False
 	if args.s not in response.text:
 		return False
