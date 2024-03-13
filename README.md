@@ -1,5 +1,5 @@
 # NoSQL-Attack-Suite
-This suite consists of two different scripts, made to automate attacks against NoSQL databases.
+A couple of different scripts, made to automate attacks against NoSQL databases.
 The first one looks for a NoSQL Auth Bypass in login forms, while the other one can be used to dump credentials from the database if a NoSQL Auth Bypass is possible. These scripts have been tested on Mango and NodeBlog machines from HackTheBox (HTB).
 Thanks to [@IppSec](https://github.com/IppSec) and [@an0nlk](https://github.com/an0nlk/Nosql-MongoDB-injection-username-password-enumeration) for giving me ideas about these scripts.
 
